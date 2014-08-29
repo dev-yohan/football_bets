@@ -1,0 +1,13 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'teams/style.css' %}" />
+
+{% if team_list %}
+    <ul>
+    {% for team in team_list %}
+        <li><a href="{% url 'teams:detail' team.id %}">{{ team.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No teams are available.</p>
+{% endif %}
