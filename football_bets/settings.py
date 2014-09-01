@@ -82,3 +82,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+cloudinary.config( 
+  cloud_name = "dfvucpnfl", 
+  api_key = "295135318988452", 
+  api_secret = "IvCf10cKUtkabhtDMCFe-Zs4LzM" 
+)
+
