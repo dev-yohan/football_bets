@@ -10,6 +10,9 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -36,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_evolution',
     'teams'
 )
 
@@ -58,8 +62,10 @@ WSGI_APPLICATION = 'football_bets.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django_mongodb_engine',
+        'NAME': 'football_bets',
+        'HOST':'localhost',
+        'PORT': '27017',
     }
 }
 
