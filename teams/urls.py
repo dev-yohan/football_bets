@@ -4,5 +4,7 @@ from teams import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'^(?P<team_id>\d+)/$', views.detail, name='detail')
+    
+    url(r'^(?P<team_id>[a-z\d]+)(?:/(?P<team_slug>[\w\d-]+))?/$', views.detail, name='detail')
+  
 )
