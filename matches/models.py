@@ -1,18 +1,19 @@
 from django.db import models
-from cloudinary.models import CloudinaryField
 from django.template.defaultfilters import slugify
 from leagues.models import League
+from teams.models import Team
 
 # Create your models here.
 
 
-#Model for football teams
-class Team(models.Model):
+#Model for football matchs
+class Match(models.Model):
     name = models.CharField(max_length=200)
-    team_photo = CloudinaryField('image', blank=True, null=True)
-    logo = CloudinaryField('image', blank=True, null=True)
     slug = models.SlugField(max_length=200, blank=True, null=True)
+    match_date = models.DateTimeField('match date', blank=True, null=True)
     
+    home = models.ForeignKey(Team, related_name='home')
+    away = models.ForeignKey(Team, related_name='away')
     league = models.ForeignKey(League)
     
     def __unicode__(self):
@@ -21,8 +22,5 @@ class Team(models.Model):
     def save(self, *args, **kwargs):
       if not self.id:  
         self.slug = slugify(self.name)
-      super(Team, self).save(*args, **kwargs)
-    
-    
-
+      super(Match, self).save(*args, **kwargs)
     

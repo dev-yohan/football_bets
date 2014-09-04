@@ -1,14 +1,31 @@
-{% load staticfiles %}
+{% extends "base.html" %}
+{% load cloudinary %}
 
-<link rel="stylesheet" type="text/css" href="{% static 'teams/css/style.css' %}" />
-
-{% if leagues_list %}
-    <ul>
-    {% for league in leagues_list %}
-        <li>{{ league.name }}</li>
-        
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No leagues are available.</p>
-{% endif %}
+{% block wrapper %}
+	{% block content %}
+	   
+	
+        <div class="row">
+	    {% if leagues_list %}
+	      {% for league in leagues_list %}  
+	      <div class="col-sm-6 col-md-4">
+	        <div class="thumbnail">
+	          {% cloudinary league.logo  height=200 width=300 crop="scale" %}
+	          <div class="caption">
+	            <h3>
+	            	<a href="{% url 'leagues:detail' league.id league.slug %}">{{ league.name }}</a>
+	            </h3>
+	            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+	            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+	          </div>
+	        </div>
+	      </div>
+		      
+		    {% endfor %}
+		{% else %}
+		  <p>No leagues are available.</p>
+		{% endif %}
+	  </div>	
+	  
+	{% endblock %}
+{% endblock %}

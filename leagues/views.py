@@ -14,5 +14,5 @@ def index(request):
 #League detail
 def detail(request, league_id, league_slug):
 
-    team = get_object_or_404(League,  pk=league_id)
+    league = get_object_or_404(League,  pk=league_id)
     return render(request, 'leagues/detail.html', {'league': league})

@@ -1,8 +1,13 @@
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 from django.http import HttpResponse
 from teams.models import Team
+
 
 def index(request):
 
