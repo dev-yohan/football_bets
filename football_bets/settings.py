@@ -40,7 +40,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_evolution',
-    'teams'
+    'teams',
+    'leagues'
 )
 
 MIDDLEWARE_CLASSES = (

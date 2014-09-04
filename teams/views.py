@@ -6,7 +6,7 @@ from teams.models import Team
 
 def index(request):
 
-    team_list = Team.objects.all()[:5]
+    team_list = Team.objects.all()
     context = {'team_list': team_list}
     return render(request, 'teams/index.html', context)
 
@@ -14,3 +14,4 @@ def detail(request,  team_id, team_slug):
 
     team = get_object_or_404(Team,  pk=team_id)
     return render(request, 'teams/detail.html', {'team': team})
+

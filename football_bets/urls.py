@@ -8,5 +8,6 @@ urlpatterns = patterns('',
     # url(r'^$', 'football_bets.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^teams/', include('teams.urls', namespace="teams")),
+    url(r'^leagues/', include('leagues.urls', namespace="leagues")),
     url(r'^admin/', include(admin.site.urls)),
 )

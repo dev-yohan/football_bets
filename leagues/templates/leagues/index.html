@@ -1,0 +1,14 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'teams/css/style.css' %}" />
+
+{% if leagues_list %}
+    <ul>
+    {% for league in leagues_list %}
+        <li>{{ league.name }}</li>
+        
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No leagues are available.</p>
+{% endif %}
