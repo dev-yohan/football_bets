@@ -4,25 +4,28 @@
     {% block sidebar %}
       {% if matches %}
         <h3>Pr&oacute;ximos encuentros</h3>
-        {% for match in matches %} 
+        {% for match in matches %}
         <div class="panel panel-default">
           <div class="panel-body">
 	          <div class="row">
 	            <div class="col-md-3">
+
 	              {% cloudinary match.home.logo height=50 width=40 crop="scale" %}
+
 	            </div>
 	            <div class="col-md-6">
 	                <p><strong>{{match.name}}</strong></p>
-	                <small>{{match.match_date}}</small>	 	
+	                <small>{{match.match_date}}</small>
 	            </div>
 	            <div class="col-md-3">
 	              {% cloudinary match.away.logo height=50 width=40 crop="scale" %}
 	            </div>	
+
 	          </div>
-	        </div>	
-	     </div>	
+	        </div>
+	     </div>
         {% endfor %}
-        
+
       {% else %}
 		  <p>No matches are available.</p>
 	  {% endif %}
@@ -30,11 +33,11 @@
 
 
 	{% block content %}
-	
+
 		<div class="row">
 		  <h2>Equipos</h2>
 		  {% if team_list %}
-		    {% for team in team_list %}  
+		    {% for team in team_list %}
 		      <div class="col-sm-6 col-md-4">
 		        <div class="thumbnail">
 		          {% cloudinary team.team_photo  height=200 width=300 crop="fill" %}
@@ -47,11 +50,11 @@
 		          </div>
 		        </div>
 		      </div>
-		      
+
 		  {% endfor %}
 		{% else %}
 		  <p>No teams are available.</p>
 		{% endif %}
-	  </div>	
-	  
+	  </div>
+
 	{% endblock %}
