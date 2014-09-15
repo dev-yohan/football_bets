@@ -3,33 +3,7 @@
 
 
     {% block sidebar %}
-      {% if matches %}
-        <h3>Pr&oacute;ximos encuentros</h3>
-        {% for match in matches %}
-        <div class="panel panel-default">
-          <div class="panel-body">
-	          <div class="row">
-	            <div class="col-md-3">
-
-	              {% cloudinary match.home.logo height=50 width=40 crop="scale" %}
-
-	            </div>
-	            <div class="col-md-6">
-	                <p><strong>{{match.name}}</strong></p>
-	                <small>{{match.match_date}}</small>
-	            </div>
-	            <div class="col-md-3">
-	              {% cloudinary match.away.logo height=50 width=40 crop="scale" %}
-	            </div>	
-
-	          </div>
-	        </div>
-	     </div>
-        {% endfor %}
-
-      {% else %}
-		  <p>No matches are available.</p>
-	  {% endif %}
+      {% include "teams/matches_partial.html" with matches=matches %}
     {% endblock %}
 
 
@@ -40,14 +14,13 @@
 	    {% if leagues_list %}
 	      {% for league in leagues_list %}
 	      <div class="col-sm-6 col-md-4">
-	        <div class="thumbnail">
+	        <div class="thumbnail" style="min-height: 330px; max-height: 330px">
 	          {% cloudinary league.logo  height=200 width=300 crop="scale" %}
 	          <div class="caption">
-	            <h3>
+	            <h4>
 	            	<a href="{% url 'leagues:detail' league.id league.slug %}">{{ league.name }}</a>
-	            </h3>
-	            <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
-	            <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+	            </h4>
+	            <p>{{ league.short_description | truncatechars:110 }}</p>
 	          </div>
 	        </div>
 	      </div>
@@ -59,3 +32,16 @@
 	  </div>
 
 	{% endblock %}
+	
+{% block js_code %}
+<script>
+ 
+$('div[id^=match_countdown]').each(function() {
+   console.log("hola");
+   $(this).countdown($(this).find("input").val()).on('update.countdown', function(event) {
+   var $this = $(this).html(event.strftime(''
+     + '<span class="badge">%-d d %H h %M m %S s</span>'));
+ });
+});
+</script>  
+{% endblock %}	

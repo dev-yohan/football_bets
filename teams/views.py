@@ -12,8 +12,8 @@ from matches.models import Match
 def index(request):
 
     team_list = Team.objects.all()
-    matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).order_by('match_date')[:50]
-    context = {'team_list': team_list, 'matches': matches}
+    matches_list = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).order_by('match_date')[:50]
+    context = {'team_list': team_list, 'matches_list': matches_list}
     return render(request, 'teams/index.html', context)
 
 def detail(request,  team_id, team_slug):

@@ -2,37 +2,33 @@
 {% load cloudinary %}
 
     {% block sidebar %}
-      {% if matches %}
-        <h3>Pr&oacute;ximos encuentros</h3>
-        {% for match in matches %}
-        <div class="panel panel-default">
-          <div class="panel-body">
-	          <div class="row">
-	            <div class="col-md-3">
-
-	              {% cloudinary match.home.logo height=50 width=40 crop="scale" %}
-
-	            </div>
-	            <div class="col-md-6">
-	                <p><strong>{{match.name}}</strong></p>
-	                <small>{{match.match_date}}</small>
-	            </div>
-	            <div class="col-md-3">
-	              {% cloudinary match.away.logo height=50 width=40 crop="scale" %}
-	            </div>	
-
-	          </div>
-	        </div>
-	     </div>
-        {% endfor %}
-
-      {% else %}
-		  <p>No matches are available.</p>
-	  {% endif %}
+      {% include "teams/matches_partial.html" with matches=matches %}
     {% endblock %}
 
 {% block content %}
   <div class="row">
-	{{match}}
+	<h2>{{match}}</h2>
+	<h4 id="clock"></h4>
   </div>
 {% endblock %}  	
+
+
+{% block js_code %}
+<script>
+  $('#clock').countdown('{{ match.match_date|date:"Y/m/d" }}').on('update.countdown', function(event) {
+   var $this = $(this).html(event.strftime(''
+     + '<span>%-d</span> días '
+     + '<span>%H</span> horas '
+     + '<span>%M</span> minutos '
+     + '<span>%S</span> segundos'));
+ });
+ 
+ $('div[id^=match_countdown]').each(function() {
+   console.log("hola");
+   $(this).countdown($(this).find("input").val()).on('update.countdown', function(event) {
+   var $this = $(this).html(event.strftime(''
+     + '<span class="badge">%-d d %H h %M m %S s</span>'));
+ });
+});
+</script>  
+{% endblock %}

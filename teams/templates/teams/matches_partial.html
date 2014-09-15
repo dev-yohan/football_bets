@@ -1,0 +1,33 @@
+{% load cloudinary %}
+{% if matches %}
+	<h3>Pr&oacute;ximos encuentros</h3>
+	{% for match in matches %}
+	<div class="panel panel-default" >
+	  <div class="panel-body">
+	      <div class="row">
+	        <div class="col-md-3">
+	
+	          {% cloudinary match.home.logo height=50 width=40 crop="scale" %}
+	
+	        </div>
+	        <div class="col-md-6">
+	           <a href="{% url 'matches:detail' match.id match.slug %}">		
+	             <p><strong>{{match.name}}</strong></p>
+	           </a>  
+	            <small>{{match.match_date}}</small>
+	             <div id="match_countdown">
+	              <input type="hidden" value="{{ match.match_date|date:'Y/m/d' }}"/>
+	             </div>
+	        </div>
+	        <div class="col-md-3">
+	          {% cloudinary match.away.logo height=50 width=40 crop="scale" %}
+	        </div>	
+	
+	      </div>
+	    </div>
+	 </div>
+	{% endfor %}
+
+{% else %}
+  <p>No matches are available.</p>
+{% endif %}
