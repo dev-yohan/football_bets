@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base_matches.html" %}
 {% load cloudinary %}
 
 
@@ -6,9 +6,10 @@
 
 
         <div class="row">
+          <h1>Próximos Encuentros</h1>	
 	    {% if matches %}
 	      {% for match in matches %}
-	        <div class="col-md-6">
+	        <div class="col-md-4">
 		      <div class="panel panel-default">
 	          <div class="panel-body">
 		          <div class="row">
@@ -16,7 +17,9 @@
 		              {% cloudinary match.home.logo height=50 width=50 crop="scale"  radius="max"%}
 		            </div>
 		            <div class="col-md-6">
+		              <a href="{% url 'matches:detail' match.id match.slug %}">	
 		                <p><strong>{{match.name}}</strong></p>
+		              </a>
 		                <small>{{match.match_date}}</small>
 		            </div>
 		            <div class="col-md-3">
