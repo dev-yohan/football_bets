@@ -1,5 +1,4 @@
 from django.db import models
-from teams.models import Team
 from cloudinary.models import CloudinaryField
 from django.template.defaultfilters import slugify
 
@@ -20,12 +19,16 @@ class League(models.Model):
       if not self.id:  
         self.slug = slugify(self.name)
       super(League, self).save(*args, **kwargs)
-
+      
+      
+      
+#Model for league seasons
 class Season(models.Model):
     name = models.CharField(max_length=200) 
     initial_date = models.DateTimeField('initial date', blank=True, null=True)
     final_date = models.DateTimeField('final date', blank=True, null=True)
     league = models.ForeignKey(League)
+    
     
     def __unicode__(self):
         return unicode(self.name)
@@ -35,4 +38,23 @@ class Season(models.Model):
         self.slug = slugify(self.name)
       super(Season, self).save(*args, **kwargs)    
 
+#Model for team's Season status
+class SeasonStatus(models.Model):
     
+    name = models.CharField(max_length=200)
+    
+    matches_played = models.DecimalField(max_digits=5, decimal_places=0)
+    matches_won = models.DecimalField(max_digits=5, decimal_places=0)
+    matches_draw = models.DecimalField(max_digits=5, decimal_places=0)
+    matches_lost = models.DecimalField(max_digits=5, decimal_places=0)
+    goals_for = models.DecimalField(max_digits=5, decimal_places=0)
+    goals_against = models.DecimalField(max_digits=5, decimal_places=0)
+    goals_difference = models.DecimalField(max_digits=5, decimal_places=0)
+    
+    points =  models.FloatField()
+    
+    current_season = models.ForeignKey(Season, blank=True, null=True)  
+    team = models.ForeignKey("teams.Team", blank=True, null=True) 
+    
+    def __unicode__(self):
+        return unicode(self.name)

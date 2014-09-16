@@ -1,7 +1,8 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django.template.defaultfilters import slugify
-
+from leagues.models import League
+from leagues.models import Season
 # Create your models here.
 
 
@@ -12,6 +13,9 @@ class Team(models.Model):
     team_photo = CloudinaryField('image', blank=True, null=True)
     logo = CloudinaryField('image', blank=True, null=True)
     slug = models.SlugField(max_length=200, blank=True, null=True)
+    
+    league = models.ForeignKey(League, blank=True, null=True)
+    current_season = models.ForeignKey(Season, blank=True, null=True)
     
     #league = models.ForeignKey(League)
     
