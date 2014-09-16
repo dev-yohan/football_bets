@@ -7,7 +7,7 @@
 
 {% block content %}
   <div class="row">
-	<h2>{{match}}</h2>
+	<h2>{{match}} - {{match.match_date}}</h2>
 	<h4 id="clock"></h4>
   </div>
 {% endblock %}  	
@@ -15,7 +15,7 @@
 
 {% block js_code %}
 <script>
-  $('#clock').countdown('{{ match.match_date|date:"Y/m/d" }}').on('update.countdown', function(event) {
+  $('#clock').countdown('{{ match.match_date|date:"Y/m/d H:m:s" }}').on('update.countdown', function(event) {
    var $this = $(this).html(event.strftime(''
      + '<span>%-d</span> días '
      + '<span>%H</span> horas '

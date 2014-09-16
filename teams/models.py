@@ -1,7 +1,6 @@
 from django.db import models
 from cloudinary.models import CloudinaryField
 from django.template.defaultfilters import slugify
-from leagues.models import League
 
 # Create your models here.
 
@@ -14,7 +13,8 @@ class Team(models.Model):
     logo = CloudinaryField('image', blank=True, null=True)
     slug = models.SlugField(max_length=200, blank=True, null=True)
     
-    league = models.ForeignKey(League)
+    #league = models.ForeignKey(League)
+    
     
     def __unicode__(self):
         return unicode(self.name)

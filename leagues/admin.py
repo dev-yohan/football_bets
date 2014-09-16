@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from teams.models import Team
-from teams.models import League
+from leagues.models import League, Season
 
 
 admin.site.register(League)
+admin.site.register(Season)

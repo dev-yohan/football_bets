@@ -1,6 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
-from leagues.models import League
+from leagues.models import League, Season
 from teams.models import Team
 
 # Create your models here.
@@ -15,6 +15,7 @@ class Match(models.Model):
     home = models.ForeignKey(Team, related_name='home')
     away = models.ForeignKey(Team, related_name='away')
     league = models.ForeignKey(League)
+    season = models.ForeignKey(Season, blank=True, null=True)
     
     def __unicode__(self):
         return unicode(self.name)
