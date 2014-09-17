@@ -24,7 +24,11 @@
       {% for status in season_status %}
         <tr>
           <td>{{ forloop.counter }}</td>
-          <td>{{ status.team.name }}</td>
+          <td>
+          	<a href="{% url 'teams:detail' status.team.id status.team.slug %}">
+          	 {{ status.team.name }}
+          	</a> 
+          </td>
           <td>{{ status.matches_played }}</td>
           <td>{{ status.matches_won }}</td>
           <td>{{ status.matches_draw }}</td>

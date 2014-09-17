@@ -1,1 +1,25 @@
-{{team}}
+{% extends "base.html" %}
+{% load cloudinary %}
+
+    {% block sidebar %}
+      {% include "teams/matches_partial.html" with matches=matches %}
+    {% endblock %}
+
+    {% block content %}
+
+      <h2><strong>{{team.name}}</strong></h2>
+      
+    {% endblock %}
+	
+{% block js_code %}
+<script>
+ 
+$('div[id^=match_countdown]').each(function() {
+   console.log("hola");
+   $(this).countdown($(this).find("input").val()).on('update.countdown', function(event) {
+   var $this = $(this).html(event.strftime(''
+     + '<span class="badge">%-d d %H h %M m %S s</span>'));
+ });
+});
+</script>  
+{% endblock %}
