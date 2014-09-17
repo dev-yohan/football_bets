@@ -49,7 +49,7 @@ class SeasonStatus(models.Model):
     matches_lost = models.DecimalField(max_digits=5, decimal_places=0)
     goals_for = models.DecimalField(max_digits=5, decimal_places=0)
     goals_against = models.DecimalField(max_digits=5, decimal_places=0)
-    goals_difference = models.DecimalField(max_digits=5, decimal_places=0)
+    goals_difference = models.IntegerField()
     
     points =  models.FloatField()
     

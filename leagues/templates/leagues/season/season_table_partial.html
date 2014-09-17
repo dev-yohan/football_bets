@@ -1,0 +1,47 @@
+{% load cloudinary %}
+{% if current_season %}
+
+  <h4>{{ current_season.name }}</h4>
+  
+  {% if season_status %}
+   <table class="table table-striped table-hover ">
+    <thead>
+      <tr>
+        <th>Posici&oacute;n</th>
+        <th>Equipo</th>
+        <th>PJ</th>
+        <th>G</th>
+        <th>E</th>
+        <th>P</th>
+        <th>GF</th>
+        <th>GC</th>
+        <th>DG</th>
+        <th>PTS</th>
+      </tr>
+    </thead>
+    <tbody>
+            
+      {% for status in season_status %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ status.team.name }}</td>
+          <td>{{ status.matches_played }}</td>
+          <td>{{ status.matches_won }}</td>
+          <td>{{ status.matches_draw }}</td>
+          <td>{{ status.matches_lost }}</td>
+          <td>{{ status.goals_for }}</td>
+          <td>{{ status.goals_against }}</td>
+          <td>{{ status.goals_difference }}</td>
+          <td>{{ status.points }}</td>
+        </tr>
+      {% endfor %}
+      
+   </tbody>
+  </table>
+  {% else %}
+	  <p>No season table are available</p>
+  {% endif %}
+  
+{% else %}
+  <p>No season available.</p>	  
+{% endif %}	

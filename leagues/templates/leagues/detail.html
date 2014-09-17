@@ -7,7 +7,9 @@
     	
     {% block content %}
     
-      <h2>{{league.name}}</h2>
+      <h2><strong>{{ league.name }}</strong></h2>
+      
+      {% include "leagues/season/season_table_partial.html" with current_season=current_season season_status=season_status %} 
     
     {% endblock %}
 	
