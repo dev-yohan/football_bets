@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social.apps.django_app.me',
     'django_evolution',
     'cloudinary',
     'teams',
@@ -46,16 +47,24 @@ INSTALLED_APPS = (
     'matches'
 )
 
-MIDDLEWARE_CLASSES = (
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+SOCIAL_AUTH_STORAGE = 'social.apps.django_app.me.models.DjangoStorage'
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',                            
+    'social.apps.django_app.context_processors.backends',
+    'social.apps.django_app.context_processors.login_redirect',
 )
 
 ROOT_URLCONF = 'football_bets.urls'
+LOGIN_REDIRECT_URL = '/'
+SOCIAL_AUTH_FACEBOOK_KEY = '1473216766284607'
+SOCIAL_AUTH_FACEBOOK_SECRET = '65c541f6cd63501da2bb036b85520e73'
 
 WSGI_APPLICATION = 'football_bets.wsgi.application'
 
@@ -71,6 +80,11 @@ DATABASES = {
         'PORT': 27017,
     }
 }
+
+from mongoengine import connect
+connect('football_bets')
+
+SITE_ID = '541b28dde565cc2c944b155d'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/

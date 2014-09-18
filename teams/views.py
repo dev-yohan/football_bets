@@ -1,5 +1,5 @@
 import datetime
-
+from django.template.context import RequestContext
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.db.models import Q
@@ -10,11 +10,13 @@ from teams.models import Team, TeamPhoto
 from matches.models import Match
 
 
+
 def index(request):
 
     team_list = Team.objects.all()
     matches_list = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).order_by('match_date')[:50]
-    context = {'team_list': team_list, 'matches_list': matches_list}
+    context = {'team_list': team_list, 'matches_list': matches_list, 'user': request.user}
+    
     return render(request, 'teams/index.html', context)
 
 def detail(request,  team_id, team_slug):

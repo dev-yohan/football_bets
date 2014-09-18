@@ -11,7 +11,7 @@ from matches.models import Match
 def index(request):
 
     matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).order_by('match_date')[:50]
-    context = {'matches': matches}
+    context = {'matches': matches, 'user': request.user}
     return render(request, 'matches/index.html', context)
 
 #Match detail
