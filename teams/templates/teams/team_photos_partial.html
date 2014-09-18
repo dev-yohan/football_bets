@@ -1,0 +1,15 @@
+{% load cloudinary %}
+{% if photos %}
+
+	<div id="owl-demo">
+	 {% for photo in photos %}        
+	  <div class="item">
+	  	{% cloudinary photo.photo  height=200 width=200 crop="fill" %}
+	  </div>
+	  
+	 {% endfor %}
+	</div>
+ 
+{% else %}
+  <p>No photos are available.</p>
+{% endif %}

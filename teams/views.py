@@ -6,7 +6,7 @@ from django.db.models import Q
 
 # Create your views here.
 from django.http import HttpResponse
-from teams.models import Team
+from teams.models import Team, TeamPhoto
 from matches.models import Match
 
 
@@ -20,6 +20,7 @@ def index(request):
 def detail(request,  team_id, team_slug):
 
     team = get_object_or_404(Team,  pk=team_id)
+    team_photos = TeamPhoto.objects.filter(team=team)[:20]
     matches = Match.objects.filter(Q(home=team) | Q(away=team), match_date__gte=datetime.datetime.today().date()).order_by('match_date')[:50]
-    return render(request, 'teams/detail.html', {'team': team,'matches': matches})
+    return render(request, 'teams/detail.html', {'team': team,'matches': matches, 'photos': team_photos})
 

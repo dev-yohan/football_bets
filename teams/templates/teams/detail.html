@@ -9,10 +9,26 @@
 
       <h2><strong>{{team.name}}</strong></h2>
       
+      {% include "teams/team_photos_partial.html" with photos=photos %}
+      
     {% endblock %}
 	
 {% block js_code %}
 <script>
+ 
+ $(document).ready(function() {
+ 
+  $("#owl-demo").owlCarousel({
+ 
+      autoPlay: 3000, //Set AutoPlay to 3 seconds
+ 
+      items : 4,
+      itemsDesktop : [10,3],
+      itemsDesktopSmall : [10,3]
+ 
+  });
+ 
+});
  
 $('div[id^=match_countdown]').each(function() {
    console.log("hola");
