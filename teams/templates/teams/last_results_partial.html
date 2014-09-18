@@ -1,0 +1,21 @@
+<h4><strong>Últimos resultados</strong></h4>
+{% if matches %}
+ {% for match in matches %}
+  <div class="panel panel-default">
+   <div class="panel-body">
+   	  <div class="col-md-2">
+	  </div>
+      <div class="col-md-4">
+       {{ match.home.name }}
+      </div>
+      <div class="col-md-4">
+       {{ match.away.name }}
+      </div>
+      <div class="col-md-2">
+      </div>
+   </div>
+  </div>
+ {% endfor %}
+{% else %}
+  <p>No matches are available.</p>
+{% endif %}

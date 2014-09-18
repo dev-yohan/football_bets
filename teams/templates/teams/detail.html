@@ -6,11 +6,19 @@
     {% endblock %}
 
     {% block content %}
-
-      <h2><strong>{{team.name}}</strong></h2>
-      
-      {% include "teams/team_photos_partial.html" with photos=photos %}
-      
+      <div class="row">
+	   <h2><strong>{{team.name}}</strong></h2>
+	   {% include "teams/team_photos_partial.html" with photos=photos %}
+	  </div>  
+      <div class="row">
+       <div class="col-md-6" style="padding-left: 0em;">
+       	{% include "teams/last_results_partial.html" with matches=last_matches %}
+      	
+       </div>
+       <div class="col-md-6">
+      	
+       </div>	
+      </div>	
     {% endblock %}
 	
 {% block js_code %}
