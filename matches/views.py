@@ -21,4 +21,4 @@ def detail(request,  match_id, match_slug):
     matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).exclude(name=match.name).order_by('match_date')[:50]
     
     
-    return render(request, 'matches/detail.html', {'match': match, 'matches': matches})
+    return render(request, 'matches/detail.html', {'match': match, 'matches': matches, 'user': request.user})

@@ -13,7 +13,7 @@ def index(request):
 
     leagues_list = League.objects.all()
     matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).order_by('match_date')[:50]
-    context = {'leagues_list': leagues_list, 'matches': matches}
+    context = {'leagues_list': leagues_list, 'matches': matches, 'user': request.user}
     return render(request, 'leagues/index.html', context)
 
 #League detail
@@ -33,4 +33,4 @@ def detail(request, league_id, league_slug):
                   {'league': league, 
                    'matches': matches, 
                    'current_season': current_season, 
-                   'season_status': season_status})
+                   'season_status': season_status, 'user': request.user})

@@ -13,6 +13,7 @@ import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -35,11 +36,12 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
+    'djangotoolbox',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'social.apps.django_app.me',
+#    'social.apps.django_app.me',
     'django_evolution',
     'cloudinary',
     'teams',
@@ -47,13 +49,16 @@ INSTALLED_APPS = (
     'matches'
 )
 
-
-SOCIAL_AUTH_STORAGE = 'social.apps.django_app.me.models.DjangoStorage'
+#SOCIAL_AUTH_MODELS = 'social_auth.db.mongoengine_models'
+#SOCIAL_AUTH_STORAGE = 'social.apps.django_app.me.models.DjangoStorage'
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',                            
