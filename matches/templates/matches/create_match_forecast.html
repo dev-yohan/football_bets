@@ -7,16 +7,11 @@
 
 {% block content %}
   <div class="row">
-	<h2>{{match}} - {{match.match_date}}</h2>
+	<h2><strong>Pronosticar resultado de {{ match }}</strong></h2>
+	<h3>{{ match.match_date }}</h3>	
 	<h4 id="clock"></h4>
 	
-	<a href="{% url 'matches:create_match_forecast' match.id match.slug %}">	
-	   <p><strong>Pronosticar resultado</strong></p>
-	</a>
 	
-	<a href="{% url 'matches:create_crowd_result' match.id  %}">	
-	   <p><strong>Dar resultado</strong></p>
-	</a>
 	
   </div>
 {% endblock %}  	

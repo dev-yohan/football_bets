@@ -23,7 +23,13 @@ def detail(request,  match_id, match_slug):
     
     return render(request, 'matches/detail.html', {'match': match, 'matches': matches, 'user': request.user})
 
-
+#Match forecast new form
+def create_match_forecast(request, match_id, match_slug):
+    match = get_object_or_404(Match,  pk=match_id)
+    matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).exclude(name=match.name).order_by('match_date')[:50]
+    
+    return render(request, 'matches/create_match_forecast.html', {'match': match, 'matches': matches, 'user': request.user})
+    
 #CrowdResult list
 def crowd_result_list(request, match_id):
     match = get_object_or_404(Match,  pk=match_id)
