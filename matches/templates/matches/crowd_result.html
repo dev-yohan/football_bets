@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load cloudinary %}
+
+    {% block sidebar %}
+      {% include "teams/matches_partial.html" with matches=matches %}
+    {% endblock %}
+
+{% block content %}
+  <div class="row">
+  	<h2><strong>Resultado Colaborativo</strong></h2>
+	<h3>{{match}} {{match.match_date}}</h3>
+	
+	<form action="/contact/" method="post">{% csrf_token %}
+	{{ form.as_p }}
+	<input type="submit" value="Submit" />
+	</form>
+		
+  </div>
+{% endblock %}  	
+
+
+{% block js_code %}
+
+{% endblock %}

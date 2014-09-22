@@ -15,8 +15,8 @@ class Match(models.Model):
     home = models.ForeignKey(Team, related_name='home')
     away = models.ForeignKey(Team, related_name='away')
     
-    home_goals = models.DecimalField(max_digits=5, decimal_places=0, null=True)
-    away_goals = models.DecimalField(max_digits=5, decimal_places=0, null=True)
+    home_goals = models.DecimalField(max_digits=5, decimal_places=0, blank=True, null=True)
+    away_goals = models.DecimalField(max_digits=5, decimal_places=0, blank=True, null=True)
     
     league = models.ForeignKey(League)
     season = models.ForeignKey(Season, blank=True, null=True)
@@ -36,6 +36,8 @@ class Match(models.Model):
 class CrowdResult(models.Model):
     user = models.ForeignKey(User)
     created_date = models.DateTimeField('match date', blank=True, null=True)
+    home_goals = models.DecimalField(max_digits=5, decimal_places=0, blank=True, null=True)
+    away_goals = models.DecimalField(max_digits=5, decimal_places=0, blank=True, null=True)
     match = models.ForeignKey(Match, related_name='match')
    
     

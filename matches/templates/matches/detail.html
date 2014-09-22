@@ -9,6 +9,11 @@
   <div class="row">
 	<h2>{{match}} - {{match.match_date}}</h2>
 	<h4 id="clock"></h4>
+	
+	<a href="{% url 'matches:create_crowd_result' match.id  %}">	
+	   <p><strong>Dar resultado</strong></p>
+	</a>
+	
   </div>
 {% endblock %}  	
 
