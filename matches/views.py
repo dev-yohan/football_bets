@@ -3,6 +3,7 @@ from forms import CrowdResultForm
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404
 from django.shortcuts import redirect
+from django.contrib import messages
 from django.http import HttpResponse
 from matches.models import Match
 
@@ -38,5 +39,6 @@ def create_crowd_result(request, match_id):
                    'user': request.user})
     
     else:
+        messages.error(request, 'Debes iniciar sesi&oacute;n.')
         return redirect('matches:detail', match_id=match.id, match_slug=match.slug)  
       
