@@ -10,9 +10,28 @@
   	<h2><strong>Resultado Colaborativo</strong></h2>
 	<h3>{{match}} {{match.match_date}}</h3>
 	
-	<form action="/contact/" method="post">{% csrf_token %}
-	{{ form.as_p }}
-	<input type="submit" value="Submit" />
+	<form action="{% url 'matches:create_crowd_result' match.id  %}" method="post" class="form-horizontal">
+		 {% csrf_token %}
+	    <div class="form-group">
+	    	
+	        <label for="home_goals" class="col-lg-3 control-label" style="text-align: left">
+	        	{% cloudinary match.home.logo height=50 width=40 crop="scale" %}
+	        	{{ match.home.name }}</label>
+	        <div class="col-lg-2">
+	          <input type="text" class="form-control" id="home_goals"/>
+	        </div>
+        </div>
+        <div class="form-group">
+	        <label for="away_goals" class="col-lg-3 control-label" style="text-align: left">
+	        	{% cloudinary match.away.logo height=50 width=40 crop="scale" %}
+	        	{{ match.away.name }}</label>
+	        <div class="col-lg-2">
+	          <input type="text" class="form-control" id="away_goals"/>
+	        </div>
+        </div>
+		
+		<input type="submit" value="Enviar" class="btn btn-primary"/>
+
 	</form>
 		
   </div>

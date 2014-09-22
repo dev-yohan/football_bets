@@ -72,6 +72,8 @@ SOCIAL_AUTH_FACEBOOK_SECRET = '65c541f6cd63501da2bb036b85520e73'
 
 WSGI_APPLICATION = 'football_bets.wsgi.application'
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases

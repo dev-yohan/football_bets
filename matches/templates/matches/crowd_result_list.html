@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load cloudinary %}
+
+    {% block sidebar %}
+      {% include "teams/matches_partial.html" with matches=matches %}
+    {% endblock %}
+
+{% block content %}
+  <div class="row">
+  	<h2><strong>Resultados Colaborativos</strong></h2>
+	<h3>{{match}} {{match.match_date}}</h3>
+	
+		
+  </div>
+{% endblock %}  	
+
+
+{% block js_code %}
+
+{% endblock %}
