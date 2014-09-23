@@ -23,10 +23,17 @@ def detail(request,  match_id, match_slug):
     matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).exclude(name=match.name).order_by('match_date')[:50]
     result_forecasts = ResultForecast.objects.filter(match=match).order_by('-created_date')[:20]
     
+    home_trend = ResultForecast.objects.filter(home_goals__gt=F('away_goals')).count()
+    away_trend = ResultForecast.objects.filter(away_goals__gt=F('home_goals')).count()
+    draw_trend = ResultForecast.objects.filter(away_goals=F('home_goals')).count()
+    
     return render(request, 'matches/detail.html', 
                   {'match': match, 
                    'matches': matches, 
                    'result_forecasts': result_forecasts,
+                   'home_trend'=home_trend,
+                   'away_trend'=away_trend,
+                   'draw_trend'=draw_trend,
                    'user': request.user})
 
 #Match forecast new form
