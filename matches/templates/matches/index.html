@@ -7,14 +7,14 @@
           <h1>Próximos Encuentros</h1>	
 	    {% if matches %}
 	      {% for match in matches %}
-	        <div class="col-md-4">
+	        <div class="col-md-4" style="text-align: center">
 		      <div class="panel panel-default" style="min-height: 120px; max-height: 120px">
 	          <div class="panel-body">
 		          <div class="row">
-		            <div class="col-md-3">
+		            <div class="col-md-3" style="text-align: center">
 		              {% cloudinary match.home.logo height=50 width=50 crop="scale"  radius="max"%}
 		            </div>
-		            <div class="col-md-6">
+		            <div class="col-md-6" style="text-align: center">
 		              <a href="{% url 'matches:detail' match.id match.slug %}">	
 		                <p><strong>{{match.name}}</strong></p>
 		              </a>
@@ -24,7 +24,7 @@
 		                	<input type="hidden" value="{{ match.match_date|date:'Y/m/d H:m:s'}}"/>
 		                </div>
 		            </div>
-		            <div class="col-md-3">
+		            <div class="col-md-3" style="text-align: center">
 		              {% cloudinary match.away.logo height=50 width=50 crop="scale" radius="max"%}
 		            </div>
 		          </div>

@@ -10,6 +10,36 @@
   	<h2><strong>Resultados Colaborativos</strong></h2>
 	<h3>{{match}} {{match.match_date}}</h3>
 	
+	{% if crowd_results %}
+	
+	  {% for result in crowd_results %}
+	    
+        <div class="col-md-12">
+	      <div class="panel panel-default" style="min-height: 120px; max-height: 120px">
+          <div class="panel-body">
+	          <div class="row">
+	            <div class="col-md-3" style="text-align: center">
+	              {% cloudinary match.home.logo height=50 width=50 crop="scale"  radius="max"%}
+	              <strong>{{result.home_goals}}</strong>
+	            </div>
+	            <div class="col-md-6" style="text-align: center">	
+	                <p><strong>{{result.match.home.name}} - {{result.match.away.name}}</strong></p>
+	                <small>{{result.user.get_full_name}}</small>          
+	            </div>
+	            <div class="col-md-3" style="text-align: center">
+	              <strong>{{result.away_goals}}</strong>
+	              {% cloudinary match.away.logo height=50 width=50 crop="scale" radius="max"%}
+	            </div>
+	          </div>
+	        </div>
+	     </div>
+        </div>
+	     
+	  {% endfor %}
+	
+	{% else %}
+	  <p>No crowd results are available.</p>
+    {% endif %}
 		
   </div>
 {% endblock %}  	

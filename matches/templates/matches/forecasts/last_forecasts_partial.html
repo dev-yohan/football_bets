@@ -1,0 +1,24 @@
+<h4><strong><a>Últimos pronósticos</strong></a></h4>
+{% if result_forecasts %}
+ {% for result in result_forecasts %}
+  <div class="panel panel-default" style="margin-bottom: 5px;">
+   <div class="panel-body">
+   	  <div class="col-md-2" style="text-align: center">
+   	  	{{ result.home_goals }}
+	  </div>
+      <div class="col-md-8" style="text-align: center">
+       <p style="margin-bottom: 0px;">
+       	 <a href="{% url 'teams:detail' result.match.home.id result.match.home.slug %}" target="_blank">{{ result.match.home.name }}</a> - 
+       	 <a href="{% url 'teams:detail' result.match.away.id result.match.away.slug %}" target="_blank">{{ result.match.away.name }}</a>
+       </p>
+       <small>{{result.user.get_full_name}}</small>
+      </div>
+      <div class="col-md-2" style="text-align: center">
+      	{{ result.away_goals }}
+      </div>
+   </div>
+  </div>
+ {% endfor %}
+{% else %}
+  <p>No forecasts are available.</p>
+{% endif %}

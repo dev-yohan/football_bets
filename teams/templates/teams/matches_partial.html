@@ -5,12 +5,12 @@
 	<div class="panel panel-default" >
 	  <div class="panel-body">
 	      <div class="row">
-	        <div class="col-md-3">
+	        <div class="col-md-3" style="text-align: center">
 	
 	          {% cloudinary match.home.logo height=50 width=40 crop="scale" %}
 	
 	        </div>
-	        <div class="col-md-6">
+	        <div class="col-md-6" style="text-align: center">
 	           <a href="{% url 'matches:detail' match.id match.slug %}">		
 	             <p><strong>{{match.name}}</strong></p>
 	           </a>  
@@ -19,7 +19,7 @@
 	              <input type="hidden" value="{{ match.match_date|date:'Y/m/d H:m:s' }}"/>
 	             </div>
 	        </div>
-	        <div class="col-md-3">
+	        <div class="col-md-3" style="text-align: center">
 	          {% cloudinary match.away.logo height=50 width=40 crop="scale" %}
 	        </div>	
 	

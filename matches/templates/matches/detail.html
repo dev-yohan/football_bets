@@ -7,17 +7,27 @@
 
 {% block content %}
   <div class="row">
-	<h2>{{match}} - {{match.match_date}}</h2>
+	<h2><strong>{{match}} - {{match.match_date}}</strong></h2>
 	<h4 id="clock"></h4>
 	
-	<a href="{% url 'matches:create_match_forecast' match.id match.slug %}">	
-	   <p><strong>Pronosticar resultado</strong></p>
-	</a>
-	
-	<a href="{% url 'matches:create_crowd_result' match.id  %}">	
-	   <p><strong>Dar resultado</strong></p>
-	</a>
-	
+	<ul class="nav nav-pills">
+    <li>
+      <a href="{% url 'matches:create_match_forecast' match.id match.slug %}">	
+	     <strong>Pronosticar resultado</strong>
+	  </a>
+    </li>
+    <li>
+      <a href="{% url 'matches:create_crowd_result' match.id  %}">	
+	    <strong>Dar resultado</strong>
+	  </a>
+    </li>
+    
+   </ul>
+   
+	<div class="col-md-6">
+	  {% include "matches/forecasts/last_forecasts_partial.html" with result_forecasts=result_forecasts %}
+	</div>
+		
   </div>
 {% endblock %}  	
 
