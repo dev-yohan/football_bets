@@ -31,19 +31,21 @@ def detail(request,  match_id, match_slug):
     home_trend = 0
     away_trend = 0
     draw_trend = 0
+
+    if total_forecasts:
     
-    for forecast in total_forecasts:
+        for forecast in total_forecasts:
+            
+            if forecast.home_goals > forecast.away_goals:
+                home_trend = home_trend + 1
+            elif forecast.away_goals > forecast.home_goals:    
+                away_trend = away_trend + 1
+            elif forecast.away_goals == forecast.home_goals:
+                draw_trend = draw_trend + 1
         
-        if forecast.home_goals > forecast.away_goals:
-            home_trend = home_trend + 1
-        elif forecast.away_goals > forecast.home_goals:    
-            away_trend = away_trend + 1
-        elif forecast.away_goals == forecast.home_goals:
-            draw_trend = draw_trend + 1
-    
-    home_trend = (home_trend * 100) / total_forecasts.count()
-    away_trend = (away_trend * 100) / total_forecasts.count()
-    draw_trend = (draw_trend * 100) / total_forecasts.count()
+        home_trend = (home_trend * 100) / total_forecasts.count()
+        away_trend = (away_trend * 100) / total_forecasts.count()
+        draw_trend = (draw_trend * 100) / total_forecasts.count()
 
     
     return render(request, 'matches/detail.html', 
