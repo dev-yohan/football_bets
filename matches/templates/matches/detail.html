@@ -13,17 +13,20 @@
     </div>
 	
 	<ul class="nav nav-pills">
-    <li>
-      <a href="{% url 'matches:create_match_forecast' match.id match.slug %}">	
-	     <strong>Pronosticar resultado</strong>
-	  </a>
-    </li>
-    <li>
-      <a href="{% url 'matches:create_crowd_result' match.id  %}">	
-	    <strong>Dar resultado</strong>
-	  </a>
-    </li>
-    
+    {% if can_give_forecast %}		
+	    <li>
+	      <a href="{% url 'matches:create_match_forecast' match.id match.slug %}">	
+		     <strong>Pronosticar resultado</strong>
+		  </a> 
+	    </li>
+	{% endif %}    
+	{% if can_give_result %}
+	    <li>
+	      <a href="{% url 'matches:create_crowd_result' match.id  %}">	
+		    <strong>Dar resultado</strong>
+		  </a>
+	    </li>
+    {% endif %} 
    </ul>
    
 	<div class="col-md-6">
@@ -31,7 +34,7 @@
 	</div>
 	
 	<div class="col-md-6">
-	  {% include "matches/forecasts/forecasts_trend_partial.html" %}
+	  {% include "matches/forecasts/forecasts_trend_partial.html" with home_trend=home_trend  away_trend=away_trend  draw_trend=draw_trend match=match %}
     </div>		
 		
   </div>
