@@ -24,6 +24,11 @@ def detail(request,  match_id, match_slug):
     matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).exclude(name=match.name).order_by('match_date')[:50]
     result_forecasts = ResultForecast.objects.filter(match=match).order_by('-created_date')[:20]
     
+    try:
+      current_user_forecast = ResultForecast.objects.get(user=request.user, match=match)
+    except ResultForecast.DoesNotExist:
+      current_user_forecast = None
+    
     can_give_result = False 
     can_give_forecast = True
     
@@ -59,6 +64,7 @@ def detail(request,  match_id, match_slug):
                    'home_trend': home_trend,
                    'away_trend': away_trend,
                    'draw_trend': draw_trend,
+                   'current_user_forecast': current_user_forecast,
                    'total_forecasts_count': total_forecasts_count,
                    'can_give_result': can_give_result,
                    'can_give_forecast': can_give_forecast,
@@ -102,7 +108,11 @@ def create_match_forecast(request, match_id, match_slug):
             
          else:
 
-           result_forecast = ResultForecast.objects.get(user=request.user, match=match)
+           try:
+              result_forecast = ResultForecast.objects.get(user=request.user, match=match)
+           except ResultForecast.DoesNotExist:
+              result_forecast = None
+
            form = ResultForecastForm()
            current_home_goals = 0
            current_away_goals = 0
