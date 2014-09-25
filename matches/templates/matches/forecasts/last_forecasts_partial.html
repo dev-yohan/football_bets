@@ -11,7 +11,10 @@
        	 <a href="{% url 'teams:detail' result.match.home.id result.match.home.slug %}" target="_blank">{{ result.match.home.name }}</a> - 
        	 <a href="{% url 'teams:detail' result.match.away.id result.match.away.slug %}" target="_blank">{{ result.match.away.name }}</a>
        </p>
-       <small>{{result.user.get_full_name}}</small>
+       <small>
+        
+        {{result.user.get_full_name}}
+       </small>
       </div>
       <div class="col-md-2" style="text-align: center">
       	{{ result.away_goals }}

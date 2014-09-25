@@ -40,15 +40,14 @@
                 type: 'pie',
                 name: 'Tendencia de los pronósticos',
                 data: [
-                    [$('#away_name').val(),   parseInt($('#away_trend').val())],
-                    ['Empate', parseInt($('#draw_trend').val())],
                     {
                         name: $('#home_name').val(),
                         y: parseInt($('#home_trend').val()),
                         sliced: true,
                         selected: true
                     },
-                    
+                    [$('#away_name').val(),   parseInt($('#away_trend').val())],
+                    ['Empate', parseInt($('#draw_trend').val())], 
                 ]
             }]
         });
