@@ -31,9 +31,11 @@ def detail(request,  match_id, match_slug):
     home_trend = 0
     away_trend = 0
     draw_trend = 0
+    total_forecasts_count = 0 
 
     if total_forecasts:
-    
+        total_forecasts_count = total_forecasts.count()
+
         for forecast in total_forecasts:
             
             if forecast.home_goals > forecast.away_goals:
@@ -55,6 +57,7 @@ def detail(request,  match_id, match_slug):
                    'home_trend': home_trend,
                    'away_trend': away_trend,
                    'draw_trend': draw_trend,
+                   'total_forecasts_count': total_forecasts_count,
                    'can_give_result': can_give_result,
                    'can_give_forecast': can_give_forecast,
                    'user': request.user})
