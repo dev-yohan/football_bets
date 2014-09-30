@@ -45,7 +45,8 @@ INSTALLED_APPS = (
     'cloudinary',
     'teams',
     'leagues',
-    'matches'
+    'matches',
+    'badges',
 )
 
 #SOCIAL_AUTH_MODELS = 'social_auth.db.mongoengine_models'
