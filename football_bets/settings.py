@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'leagues',
     'matches',
     'badges',
+    'activities',
 )
 
 #SOCIAL_AUTH_MODELS = 'social_auth.db.mongoengine_models'
