@@ -5,6 +5,9 @@
       {% include "teams/matches_partial.html" with matches=matches %}
     {% endblock %}
 
+{% block messages %}
+{% endblock %}
+
 {% block content %}
   <div class="row">
 	<h2><strong>{{match}} - {{match.match_date}}</strong></h2>

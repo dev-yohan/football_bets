@@ -86,6 +86,7 @@ def create_match_forecast(request, match_id, match_slug):
           
           else:
           
+              messages.add_message(request, messages.INFO, 'Hello world.')
               return render(request, 'matches/create_match_forecast.html', 
                      {'match': match, 
                       'matches': matches,
