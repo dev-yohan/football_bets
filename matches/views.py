@@ -24,6 +24,11 @@ def detail(request,  match_id, match_slug):
     matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).exclude(name=match.name).order_by('match_date')[:50]
     result_forecasts = ResultForecast.objects.filter(match=match).order_by('-created_date')[:20]
     
+    try:
+      current_user_forecast = ResultForecast.objects.get(user=request.user, match=match)
+    except ResultForecast.DoesNotExist:
+      current_user_forecast = None
+    
     can_give_result = False 
     can_give_forecast = True
     
@@ -31,19 +36,25 @@ def detail(request,  match_id, match_slug):
     home_trend = 0
     away_trend = 0
     draw_trend = 0
-    
-    for forecast in total_forecasts:
+    total_forecasts_count = 0 
+
+    print request.user.id
+
+    if total_forecasts:
+        total_forecasts_count = total_forecasts.count()
+
+        for forecast in total_forecasts:
+            
+            if forecast.home_goals > forecast.away_goals:
+                home_trend = home_trend + 1
+            elif forecast.away_goals > forecast.home_goals:    
+                away_trend = away_trend + 1
+            elif forecast.away_goals == forecast.home_goals:
+                draw_trend = draw_trend + 1
         
-        if forecast.home_goals > forecast.away_goals:
-            home_trend = home_trend + 1
-        elif forecast.away_goals > forecast.home_goals:    
-            away_trend = away_trend + 1
-        elif forecast.away_goals == forecast.home_goals:
-            draw_trend = draw_trend + 1
-    
-    home_trend = (home_trend * 100) / total_forecasts.count()
-    away_trend = (away_trend * 100) / total_forecasts.count()
-    draw_trend = (draw_trend * 100) / total_forecasts.count()
+        home_trend = (home_trend * 100) / total_forecasts.count()
+        away_trend = (away_trend * 100) / total_forecasts.count()
+        draw_trend = (draw_trend * 100) / total_forecasts.count()
 
     
     return render(request, 'matches/detail.html', 
@@ -53,6 +64,8 @@ def detail(request,  match_id, match_slug):
                    'home_trend': home_trend,
                    'away_trend': away_trend,
                    'draw_trend': draw_trend,
+                   'current_user_forecast': current_user_forecast,
+                   'total_forecasts_count': total_forecasts_count,
                    'can_give_result': can_give_result,
                    'can_give_forecast': can_give_forecast,
                    'user': request.user})
@@ -60,6 +73,7 @@ def detail(request,  match_id, match_slug):
 #Match forecast new form
 def create_match_forecast(request, match_id, match_slug):
     match = get_object_or_404(Match,  pk=match_id)
+
     matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).exclude(name=match.name).order_by('match_date')[:50]
     
     if request.user.is_authenticated():
@@ -96,17 +110,61 @@ def create_match_forecast(request, match_id, match_slug):
        else:
            
          form = ResultForecastForm()
+
             
-         return render(request, 'matches/create_match_forecast.html', 
-                     {'match': match, 
-                      'matches': matches,
-                      'form': form, 
-                      'user': request.user})
-    
+            result_forecast = ResultForecast.objects.filter(user=request.user, match=match)
+            print result_forecast
+            
+            if not result_forecast:
+            
+                ResultForecast.objects.create(home_goals=home_goals, 
+                                          away_goals=away_goals,
+                                          user=request.user,
+                                          match=match,
+                                          created_date=datetime.datetime.now())
+                
+                return redirect('matches:detail', match_id=match.id, match_slug=match.slug)
+            
+            else:
+            
+                result_forecast = ResultForecast.objects.filter(user=request.user, match=match).update(home_goals=home_goals, 
+                                          away_goals=away_goals, updated_date=datetime.datetime.now())
+
+                return redirect('matches:detail', match_id=match.id, match_slug=match.slug)
+            
+         else:
+
+           try:
+              result_forecast = ResultForecast.objects.get(user=request.user, match=match)
+           except ResultForecast.DoesNotExist:
+              result_forecast = None
+
+           form = ResultForecastForm()
+           current_home_goals = 0
+           current_away_goals = 0
+
+           print result_forecast
+           if result_forecast:
+              current_home_goals = result_forecast.home_goals
+              current_away_goals = result_forecast.away_goals
+
+           return render(request, 'matches/create_match_forecast.html', 
+                       {'match': match, 
+                        'matches': matches,
+                        'current_home_goals': current_home_goals,
+                        'current_away_goals': current_away_goals,
+                        'form': form, 
+                        'user': request.user})
+      
+      else:
+          #messages.add_message(request, messages.INFO, 'Hello world.')
+          return redirect('matches:detail', match_id=match.id, match_slug=match.slug)
+
     else:
-        #messages.add_message(request, messages.INFO, 'Hello world.')
-        return redirect('matches:detail', match_id=match.id, match_slug=match.slug, user=request.user)
+      return redirect('matches:detail', match_id=match.id, match_slug=match.slug)       
     
+
+
 #CrowdResult list
 def crowd_result_list(request, match_id):
     match = get_object_or_404(Match,  pk=match_id)

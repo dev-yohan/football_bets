@@ -33,7 +33,8 @@ class Match(models.Model):
 #Model for match result forecast
 class ResultForecast(models.Model):
     user = models.ForeignKey(User)
-    created_date = models.DateTimeField('match date', blank=True, null=True)
+    created_date = models.DateTimeField('created date', blank=True, null=True)
+    updated_date = models.DateTimeField('updated date', blank=True, null=True)
     home_goals = models.DecimalField(max_digits=5, decimal_places=0, blank=True, null=True)
     away_goals = models.DecimalField(max_digits=5, decimal_places=0, blank=True, null=True)
     match = models.ForeignKey(Match, related_name='forecasted_match')  

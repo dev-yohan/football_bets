@@ -37,7 +37,9 @@
 	</div>
 	
 	<div class="col-md-6">
-	  {% include "matches/forecasts/forecasts_trend_partial.html" with home_trend=home_trend  away_trend=away_trend  draw_trend=draw_trend match=match %}
+	 {% if total_forecasts_count > 0 %}	
+	   {% include "matches/forecasts/forecasts_trend_partial.html" with home_trend=home_trend  away_trend=away_trend  draw_trend=draw_trend match=match %}
+     {% endif %} 
     </div>		
 		
   </div>
