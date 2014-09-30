@@ -11,8 +11,9 @@
 {% block content %}
   <div class="row">
 	<h2><strong>{{match}} - {{match.match_date}}</strong></h2>
-	<div id="clock" class="alert alert-dismissable alert-success" style="font-weight: bold">
-                
+	 {% if can_give_forecast %}		
+	   <div id="clock" class="alert alert-dismissable alert-success" style="font-weight: bold">
+     {% endif %}            
     </div>
 	
 	<ul class="nav nav-pills">

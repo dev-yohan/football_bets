@@ -31,6 +31,15 @@ def detail(request,  match_id, match_slug):
     
     can_give_result = False 
     can_give_forecast = True
+
+    if datetime.datetime.now() >= match.match_date:
+       print "match pass away"
+       can_give_forecast = False
+       can_give_result = True
+    else:
+       print "match available to forecast"
+       can_give_result = False 
+       can_give_forecast = True
     
     total_forecasts = ResultForecast.objects.filter(match=match)
     home_trend = 0
@@ -75,42 +84,17 @@ def create_match_forecast(request, match_id, match_slug):
     match = get_object_or_404(Match,  pk=match_id)
 
     matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).exclude(name=match.name).order_by('match_date')[:50]
-    
-    if request.user.is_authenticated():
-       
-       form = ResultForecastForm(request.POST) 
-       print form.errors
-       if request.method == 'POST'  and form.is_valid():
-       
-          home_goals = form.cleaned_data['home_goals']
-          away_goals = form.cleaned_data['away_goals']
-          
-          result_forecast = ResultForecast.objects.filter(user=request.user, match=match)
-          print result_forecast
-          
-          if not result_forecast:
-          
-              ResultForecast.objects.create(home_goals=home_goals, 
-                                        away_goals=away_goals,
-                                        user=request.user,
-                                        match=match,
-                                        created_date=datetime.datetime.now())
-              
-              return redirect('matches:detail', match_id=match.id, match_slug=match.slug)
-          
-          else:
-          
-              messages.add_message(request, messages.INFO, 'Hello world.')
-              return render(request, 'matches/create_match_forecast.html', 
-                     {'match': match, 
-                      'matches': matches,
-                      'form': form, 
-                      'user': request.user})
-          
-       else:
-           
-         form = ResultForecastForm()
+     
+    if datetime.datetime.now() < match.match_date:
 
+      if request.user.is_authenticated():
+         
+         form = ResultForecastForm(request.POST) 
+         print form.errors
+         if request.method == 'POST'  and form.is_valid():
+         
+            home_goals = form.cleaned_data['home_goals']
+            away_goals = form.cleaned_data['away_goals']
             
             result_forecast = ResultForecast.objects.filter(user=request.user, match=match)
             print result_forecast
@@ -127,38 +111,55 @@ def create_match_forecast(request, match_id, match_slug):
             
             else:
             
-                result_forecast = ResultForecast.objects.filter(user=request.user, match=match).update(home_goals=home_goals, 
-                                          away_goals=away_goals, updated_date=datetime.datetime.now())
+                ResultForecast.objects.filter(user=request.user, match=match).update(home_goals=home_goals, away_goals=away_goals, updated_date=datetime.datetime.today().date())
 
                 return redirect('matches:detail', match_id=match.id, match_slug=match.slug)
             
          else:
+             
+              form = ResultForecastForm()
 
-           try:
-              result_forecast = ResultForecast.objects.get(user=request.user, match=match)
-           except ResultForecast.DoesNotExist:
-              result_forecast = None
 
-           form = ResultForecastForm()
-           current_home_goals = 0
-           current_away_goals = 0
+              result_forecast = ResultForecast.objects.filter(user=request.user, match=match)
+              print result_forecast
 
-           print result_forecast
-           if result_forecast:
-              current_home_goals = result_forecast.home_goals
-              current_away_goals = result_forecast.away_goals
+              if not result_forecast:
 
-           return render(request, 'matches/create_match_forecast.html', 
-                       {'match': match, 
-                        'matches': matches,
-                        'current_home_goals': current_home_goals,
-                        'current_away_goals': current_away_goals,
-                        'form': form, 
-                        'user': request.user})
-      
+                ResultForecast.objects.create(home_goals=home_goals, 
+                                away_goals=away_goals,
+                                user=request.user,
+                                match=match,
+                                created_date=datetime.datetime.now())
+
+                return redirect('matches:detail', match_id=match.id, match_slug=match.slug)
+
+              else:
+
+                try:
+                  result_forecast = ResultForecast.objects.get(user=request.user, match=match)
+                except ResultForecast.DoesNotExist:
+                  result_forecast = None
+
+                form = ResultForecastForm()
+                current_home_goals = 0
+                current_away_goals = 0
+
+                print result_forecast
+                if result_forecast:
+                  current_home_goals = result_forecast.home_goals
+                  current_away_goals = result_forecast.away_goals
+
+                return render(request, 'matches/create_match_forecast.html', 
+                   {'match': match, 
+                    'matches': matches,
+                    'current_home_goals': current_home_goals,
+                    'current_away_goals': current_away_goals,
+                    'form': form, 
+                    'user': request.user})
+
+
       else:
-          #messages.add_message(request, messages.INFO, 'Hello world.')
-          return redirect('matches:detail', match_id=match.id, match_slug=match.slug)
+        return redirect('matches:detail', match_id=match.id, match_slug=match.slug)  
 
     else:
       return redirect('matches:detail', match_id=match.id, match_slug=match.slug)       
