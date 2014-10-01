@@ -1,6 +1,7 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 from leagues.models import League, Season
+from badges.models import Badge, BadgeByActivity
 from teams.models import Team
 from django.contrib.auth.models import User
 from django.conf import settings

@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from matches.models import Match, CrowdResult, ResultForecast
 from activities.models import Activity, ActivityByUser
+from badges.models import Badge, BadgeByActivity, BadgeByUser
 from django.db.models import Count
 from django import forms
 from django.db.models import F
@@ -103,6 +104,7 @@ def create_match_forecast(request, match_id, match_slug):
             if not result_forecast:
                 try:
                   activity = Activity.objects.get(keyword="PRONOSTICAR_RESULTADO")
+
                 except Activity.DoesNotExist:
                   activity = None
 
@@ -113,14 +115,24 @@ def create_match_forecast(request, match_id, match_slug):
                   result_forecast = None
 
                 print "activity by user"
-                #print activity_by_user
+                print activity_by_user
 
                 if activity_by_user == None:
                     ActivityByUser.objects.create(activity=activity,
                                                   user=request.user,
                                                   first_time=True,
                                                   created_date=datetime.datetime.now())
-                
+
+                #Activity.assign_badges(activity, request.user)
+
+                badges = BadgeByActivity.objects.filter(activity=activity)
+      
+                for badge in badges:
+                    print "KEYWORD"
+                    print badge.activity.keyword
+
+                    BadgeByUser.objects.create(badge=badge.badge, user=request.user)
+
                 ResultForecast.objects.create(home_goals=home_goals, 
                                           away_goals=away_goals,
                                           user=request.user,

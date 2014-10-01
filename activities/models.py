@@ -1,8 +1,8 @@
 from django.db import models
 from django.template.defaultfilters import slugify
-from badges.models import Badge
 from django.contrib.auth.models import User
 from django.conf import settings
+
 
 # Create your models here.
 
@@ -25,12 +25,8 @@ class Activity(models.Model):
 class ActivityByUser(models.Model):
     user = models.ForeignKey(User)
     activity = models.ForeignKey(Activity, blank=True, null=True)
-    badge = models.ForeignKey(Badge, blank=True, null=True)
-    created_date = models.DateTimeField('activity date', blank=True, null=True)
+    created_date = models.DateTimeField('activity_date', blank=True, null=True)
     first_time = models.BooleanField()
     
     def __unicode__(self):
         return unicode(self.activity.name)
-    
-
-
