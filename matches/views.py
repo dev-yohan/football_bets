@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.http import HttpResponse
 from matches.models import Match, CrowdResult, ResultForecast
+from activities.models import Activity, ActivityByUser
 from django.db.models import Count
 from django import forms
 from django.db.models import F
@@ -100,7 +101,26 @@ def create_match_forecast(request, match_id, match_slug):
             print result_forecast
             
             if not result_forecast:
-            
+                try:
+                  activity = Activity.objects.get(keyword="PRONOSTICAR_RESULTADO")
+                except Activity.DoesNotExist:
+                  activity = None
+
+                activity_by_user = None    
+                try:
+                  activity_by_user = ActivityByUser.objects.get(activity=activity, user=request.user)
+                except ActivityByUser.DoesNotExist:
+                  result_forecast = None
+
+                print "activity by user"
+                #print activity_by_user
+
+                if activity_by_user == None:
+                    ActivityByUser.objects.create(activity=activity,
+                                                  user=request.user,
+                                                  first_time=True,
+                                                  created_date=datetime.datetime.now())
+                
                 ResultForecast.objects.create(home_goals=home_goals, 
                                           away_goals=away_goals,
                                           user=request.user,
@@ -111,6 +131,16 @@ def create_match_forecast(request, match_id, match_slug):
             
             else:
             
+                try:
+                  activity = Activity.objects.get(keyword="PRONOSTICAR_RESULTADO")
+                except Activity.DoesNotExist:
+                  activity = None
+
+                ActivityByUser.objects.create(activity=activity,
+                                                  user=request.user,
+                                                  first_time=False,
+                                                  created_date=datetime.datetime.now())
+
                 ResultForecast.objects.filter(user=request.user, match=match).update(home_goals=home_goals, away_goals=away_goals, updated_date=datetime.datetime.today().date())
 
                 return redirect('matches:detail', match_id=match.id, match_slug=match.slug)
@@ -118,20 +148,21 @@ def create_match_forecast(request, match_id, match_slug):
          else:
              
               form = ResultForecastForm()
-
+              current_home_goals = 0
+              current_away_goals = 0
 
               result_forecast = ResultForecast.objects.filter(user=request.user, match=match)
               print result_forecast
 
               if not result_forecast:
 
-                ResultForecast.objects.create(home_goals=home_goals, 
-                                away_goals=away_goals,
-                                user=request.user,
-                                match=match,
-                                created_date=datetime.datetime.now())
-
-                return redirect('matches:detail', match_id=match.id, match_slug=match.slug)
+                 return render(request, 'matches/create_match_forecast.html', 
+                   {'match': match, 
+                    'matches': matches,
+                    'current_home_goals': current_home_goals,
+                    'current_away_goals': current_away_goals,
+                    'form': form, 
+                    'user': request.user})
 
               else:
 
@@ -139,10 +170,6 @@ def create_match_forecast(request, match_id, match_slug):
                   result_forecast = ResultForecast.objects.get(user=request.user, match=match)
                 except ResultForecast.DoesNotExist:
                   result_forecast = None
-
-                form = ResultForecastForm()
-                current_home_goals = 0
-                current_away_goals = 0
 
                 print result_forecast
                 if result_forecast:

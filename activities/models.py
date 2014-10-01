@@ -8,9 +8,9 @@ from django.conf import settings
 
 #Model for activities
 class Activity(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=255)
+    keyword = models.CharField(max_length=255)
     short_description = models.TextField(max_length=1000)
-    badge = models.ForeignKey(Badge, blank=True, null=True)
     
     def __unicode__(self):
         return unicode(self.name)
@@ -19,3 +19,18 @@ class Activity(models.Model):
       if not self.id:  
         self.slug = slugify(self.name)
       super(Activity, self).save(*args, **kwargs)
+
+
+#Model for user's activities
+class ActivityByUser(models.Model):
+    user = models.ForeignKey(User)
+    activity = models.ForeignKey(Activity, blank=True, null=True)
+    badge = models.ForeignKey(Badge, blank=True, null=True)
+    created_date = models.DateTimeField('activity date', blank=True, null=True)
+    first_time = models.BooleanField()
+    
+    def __unicode__(self):
+        return unicode(self.activity.name)
+    
+
+
