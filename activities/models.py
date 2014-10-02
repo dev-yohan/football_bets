@@ -22,7 +22,7 @@ class Activity(models.Model):
       super(Activity, self).save(*args, **kwargs)
 
 
-#Model for user's activities
+#Model for user's activities (activity log)
 class ActivityByUser(models.Model):
     user = models.ForeignKey(User)
     activity = models.ForeignKey(Activity, blank=True, null=True)
