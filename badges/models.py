@@ -46,6 +46,8 @@ class BadgeByUser(models.Model):
     user = models.ForeignKey(User)
     badge = models.ForeignKey("badges.Badge", related_name='user_badge',
                               blank=True, null=True)
+
+    linking_date = models.DateTimeField('linking date', blank=True, null=True)
     
     def __unicode__(self):
         return unicode(self.badge.name)

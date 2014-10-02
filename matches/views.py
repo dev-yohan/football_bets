@@ -104,7 +104,6 @@ def create_match_forecast(request, match_id, match_slug):
             if not result_forecast:
                 try:
                   activity = Activity.objects.get(keyword="PRONOSTICAR_RESULTADO")
-
                 except Activity.DoesNotExist:
                   activity = None
 
@@ -123,15 +122,20 @@ def create_match_forecast(request, match_id, match_slug):
                                                   first_time=True,
                                                   created_date=datetime.datetime.now())
 
-                #Activity.assign_badges(activity, request.user)
+                    badges = BadgeByActivity.objects.filter(activity=activity)
+          
+                    for badge in badges:
+                        print "KEYWORD"
+                        print badge.activity.keyword
 
-                badges = BadgeByActivity.objects.filter(activity=activity)
-      
-                for badge in badges:
-                    print "KEYWORD"
-                    print badge.activity.keyword
+                        BadgeByUser.objects.create(badge=badge.badge, user=request.user)
 
-                    BadgeByUser.objects.create(badge=badge.badge, user=request.user)
+                else:
+                    ActivityByUser.objects.create(activity=activity,
+                                                  user=request.user,
+                                                  first_time=False,
+                                                  created_date=datetime.datetime.now())
+
 
                 ResultForecast.objects.create(home_goals=home_goals, 
                                           away_goals=away_goals,

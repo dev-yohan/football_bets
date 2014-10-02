@@ -1,0 +1,31 @@
+{% extends "base_matches.html" %}
+{% load cloudinary %}
+
+   {% block content %}
+       
+       <div class="row">
+          <h2><strong>Tus Insignias</strong></h2>
+		      {% if badges %}
+		          
+		          <div class="row">
+		          {% for badge in badges %}
+
+		              <div class="col-md-3">
+				        <div class="thumbnail" style="min-height: 300px; max-height: 300px">
+				          {% cloudinary badge.badge.logo  height=150 width=150 crop="scale" %}
+				          <div class="caption">
+				            <h4><strong>{{ badge.badge.name }}</strong></h4>
+				            <p>{{  badge.badge.short_description | truncatechars:110 }}</p>
+				          </div>
+				        </div>
+				      </div>
+
+		           {% endfor %}
+		          </div>
+
+		      {% else %}
+				  <p>No badges are available.</p>
+			  {% endif %}
+		</div>	  
+
+   {% endblock %}
