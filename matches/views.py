@@ -59,10 +59,13 @@ def detail(request,  match_id, match_slug):
     matches = Match.objects.filter(match_date__gte=datetime.datetime.today().date()).exclude(name=match.name).order_by('match_date')[:50]
     result_forecasts = ResultForecast.objects.filter(match=match).order_by('-created_date')[:20]
     
-    try:
-      current_user_forecast = ResultForecast.objects.get(user=request.user, match=match)
-    except ResultForecast.DoesNotExist:
-      current_user_forecast = None
+    if request.user.is_authenticated():
+      try:
+        current_user_forecast = ResultForecast.objects.get(user=request.user, match=match)
+      except ResultForecast.DoesNotExist:
+        current_user_forecast = None
+    else:
+      current_user_forecast = None    
     
     can_give_result = False 
     can_give_forecast = True
