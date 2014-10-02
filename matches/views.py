@@ -12,6 +12,39 @@ from django.db.models import Count
 from django import forms
 from django.db.models import F
 
+def manage(activity_name, user):
+
+    try:
+        activity = Activity.objects.get(keyword=activity_name)
+
+        print "MANAGING"
+        print activity.name
+ 
+        activity_by_user = ActivityByUser.objects.filter(activity=activity, user=user)
+
+        if not activity_by_user:
+           ActivityByUser.objects.create(activity=activity,
+                                         user=user,
+                                         first_time=True,
+                                         created_date=datetime.datetime.now())  
+
+           badges = BadgeByActivity.objects.filter(activity=activity)
+          
+           for badge in badges:
+              print "KEYWORD"
+              print badge.activity.keyword
+              BadgeByUser.objects.create(badge=badge.badge, user=user)
+
+        else:
+           ActivityByUser.objects.create(activity=activity,
+                                         user=user,
+                                         first_time=False,
+                                         created_date=datetime.datetime.now())  
+
+    except Activity.DoesNotExist:
+          activity = None    
+
+
 #Matches index
 def index(request):
 
@@ -102,40 +135,10 @@ def create_match_forecast(request, match_id, match_slug):
             print result_forecast
             
             if not result_forecast:
-                try:
-                  activity = Activity.objects.get(keyword="PRONOSTICAR_RESULTADO")
-                except Activity.DoesNotExist:
-                  activity = None
+                 
+                manage("PRONOSTICAR_RESULTADO", request.user)
 
-                activity_by_user = None    
-                try:
-                  activity_by_user = ActivityByUser.objects.get(activity=activity, user=request.user)
-                except ActivityByUser.DoesNotExist:
-                  result_forecast = None
-
-                print "activity by user"
-                print activity_by_user
-
-                if activity_by_user == None:
-                    ActivityByUser.objects.create(activity=activity,
-                                                  user=request.user,
-                                                  first_time=True,
-                                                  created_date=datetime.datetime.now())
-
-                    badges = BadgeByActivity.objects.filter(activity=activity)
-          
-                    for badge in badges:
-                        print "KEYWORD"
-                        print badge.activity.keyword
-
-                        BadgeByUser.objects.create(badge=badge.badge, user=request.user)
-
-                else:
-                    ActivityByUser.objects.create(activity=activity,
-                                                  user=request.user,
-                                                  first_time=False,
-                                                  created_date=datetime.datetime.now())
-
+                #Activity.manage(activity, request.user)  
 
                 ResultForecast.objects.create(home_goals=home_goals, 
                                           away_goals=away_goals,
@@ -147,15 +150,7 @@ def create_match_forecast(request, match_id, match_slug):
             
             else:
             
-                try:
-                  activity = Activity.objects.get(keyword="PRONOSTICAR_RESULTADO")
-                except Activity.DoesNotExist:
-                  activity = None
-
-                ActivityByUser.objects.create(activity=activity,
-                                                  user=request.user,
-                                                  first_time=False,
-                                                  created_date=datetime.datetime.now())
+                manage("PRONOSTICAR_RESULTADO", request.user)  
 
                 ResultForecast.objects.filter(user=request.user, match=match).update(home_goals=home_goals, away_goals=away_goals, updated_date=datetime.datetime.today().date())
 
